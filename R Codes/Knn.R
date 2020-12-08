@@ -18,6 +18,8 @@ for(i in 1 : length(data[,3])){
     data$room_type[i] = 2;
   }else if(data$room_type[i]=="Shared room"){
     data$room_type[i] = 3; 
+  }else{
+    data$room_type[i] = NA;
   }
 }
 for(i in 1 : length(data)){
@@ -49,22 +51,11 @@ training <- data[-idx,] # train 70% of the data
 test <- data[idx,] # test 30% of the data
 
 # knn Prediction
-predict <- knn(training[,-9], test[,-9], training$price_level,k=50)
-
-# Get accuracy.
-table(Actual=test[,9],KNN=predict)
-accuracy <-sum(test[,9] == predict) / length(test[,1])
-accuracy
-
-
-
-#k    Accuracy
-#5    0.677
-#10   0.686
-#30   0.693
-#50   0.694   ¡Ì
-#80   0.692
-#100  0.690      
-#130  0.689
-#150  0.687
-#200  0.685
+for(k in seq(5,200,10)){
+  predict <- knn(training[,-9], test[,-9], training$price_level,k)
+  
+  # Get accuracy.
+  table(Actual=test[,9],KNN=predict)
+  accuracy <-sum(test[,9] == predict) / length(test[,1])
+  print(paste("k = ",k," accuracy = ",accuracy))
+}
