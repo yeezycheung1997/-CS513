@@ -10,7 +10,8 @@ Sys.setlocale("LC_ALL", "English")
 remove(list=ls())
 
 library('e1071')
-data <- read.csv("E://CS-513//CS513PROJECT//AB_NYC_2019.csv")
+filename<-file.choose()
+data <- read.csv(filename)
 
 # Delete some fake prices in data
 data <- data[-which(data$price==0),]
